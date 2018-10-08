@@ -1,9 +1,7 @@
-var locations = [
-  'Улан-Удэ',
-  'Иркутск',
-  'Красноярск',
-  'Павлодар'
-];
+var locations = prompt(
+  'Введите список городов, разделённый запятыми:',
+  'Улан-Удэ, Иркутск, Красноярск, Павлодар'
+).split(',');
 
 var stations = [
   // [inner, outer, cost]
@@ -86,7 +84,7 @@ function find(l) {
 
 function findAll(locations) {
   var promises = [];
-  locations.forEach(l => promises.push(find(l)));
+  locations.forEach(l => promises.push(find(l.trim())));
   return Promise.all(promises);
 }
 
