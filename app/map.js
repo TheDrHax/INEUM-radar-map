@@ -6,17 +6,19 @@ var locations = [
 ];
 
 var stations = [
-  [150, 400],
-  [200, 400],
-  [100, 200],
-  [000, 150]
+  // [inner, outer, cost]
+  [150, 400, 400],
+  [200, 400, 300],
+  [100, 200, 200],
+  [000, 150, 100]
 ];
 
 /* ------------------------------------------------------------------------- */
 
 var map;
+var price_button;
 
-function station(xy, r1, r2) {
+function station(xy, r1, r2, cost) {
   var station = new ymaps.GeoObjectCollection({}, {
     draggable: true,
     strokeOpacity: 0.8,
@@ -47,7 +49,10 @@ function station(xy, r1, r2) {
 
   station.events.add('click', event => {
     map.geoObjects.remove(station);
+    price_button.update(-cost);
   });
+
+  price_button.update(cost);
 
   return station;
 }
@@ -105,17 +110,32 @@ function init() {
     stations.forEach(r => {
       var button = new ymaps.control.Button({
         data: {
-          content: '' + r[0] + '-' + r[1]
+          content: '' + r[0] + '-' + r[1] + ' км ' + r[2] + ' у.е.'
         },
         options: {
+          maxWidth: 200,
           selectOnClick: false
         }
       });
       button.events.add('click', event => {
-        map.geoObjects.add(station(center, r[0], r[1]));
+        map.geoObjects.add(station(center, r[0], r[1], r[2]));
       });
       map.controls.add(button, {float: 'left'});
     });
+
+    price_button = new ymaps.control.Button({
+      options: {
+        maxWidth: 200,
+        selectOnClick: false
+      }
+    });
+    price_button.value = 0;
+    price_button.update = function (delta) {
+      this.value += delta;
+      this.data.set('content', 'Цена: ' + this.value);
+    }
+    price_button.update(0);
+    map.controls.add(price_button, {float: 'right'});
 
     for (var i = 0; i < coordinates.length; i++) {
       map.geoObjects.add(point(coordinates[i])); // points
