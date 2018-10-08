@@ -22,19 +22,19 @@ function station(xy, r1, r2, cost) {
   var station = new ymaps.GeoObjectCollection({}, {
     draggable: true,
     strokeOpacity: 0.8,
-    strokeWidth: 1,
+    strokeWidth: 2,
   });
 
   var inner = new ymaps.Circle([xy, r1 * 1000], {}, {
-    fillColor: "#FF000080",
-    strokeColor: "#FF0000",
-    zIndex: 2
+    fillColor: "#DB709377",
+    strokeColor: "#990066",
+    zIndex: -r2 + 1
   });
 
   var outer = new ymaps.Circle([xy, r2 * 1000], {}, {
-    fillColor: "#00FF0080",
-    strokeColor: "#00FF00",
-    zIndex: 1
+    fillColor: "#DB709377",
+    strokeColor: "#990066",
+    zIndex: -r2
   });
 
   outer.events.add('drag', event => {
