@@ -27,7 +27,7 @@ function getCookie(cname) {
 
 var locations = prompt(
   'Введите список городов, разделённый запятыми:',
-  getCookie('locations') || 'Улан-Удэ, Иркутск, Красноярск, Павлодар'
+  getCookie('locations') || 'аэропорт Улан-Удэ, аэропорт Иркутск, аэропорт Красноярск, аэропорт Павлодар'
 );
 setCookie('locations', locations, 31);
 locations = locations.split(',');
